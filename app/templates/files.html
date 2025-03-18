@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Uploaded Images</h2>
+
+<!-- Display any flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="alert alert-{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<div class="image-grid">
+    {% if images %}
+        {% for image in images %}
+            <div class="image-item">
+                <img src="{{ url_for('get_image', filename=image) }}" alt="Uploaded Image">
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No images uploaded yet. Please upload new files if you'd like to see them here.</p>
+    {% endif %}
+</div>
+
+<style>
+    .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+    }
+    .image-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
