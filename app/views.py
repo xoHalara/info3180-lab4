@@ -59,7 +59,8 @@ def upload():
 @app.route('/uploads/<filename>')
 def get_image(filename):
     """Serves an uploaded image from the uploads folder."""
-    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+    upload_folder = os.path.join(os.getcwd(), app.config["UPLOAD_FOLDER"])
+    return send_from_directory(upload_folder, filename)
 
 @app.route('/files')
 @login_required
@@ -106,7 +107,7 @@ def logout():
     """Logs out the current user."""
     logout_user()
     flash("You have been logged out.", "info")
-    return redirect(url_for("login"))
+    return redirect(url_for("home"))
 
 # user_loader callback. This callback is used to reload the user object from
 # the user ID stored in the session
